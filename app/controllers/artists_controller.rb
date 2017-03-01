@@ -9,6 +9,13 @@ class ArtistsController < ApplicationController
   end
 
   def reformat(artists)
-
+    artists.map do |artist|
+      {
+          id: artist.id,
+          name: artist.name,
+          external_urls: artist.external_urls,
+          genres: artist.genres
+      }
+    end
   end
 end
