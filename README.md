@@ -21,3 +21,7 @@ You should assume that your solution is meant for production use by real users a
 ### Searching for artists
 
 `curl http://spot90s.herokuapp.com/artists/search/sting`
+
+### Lookup specific artist by id
+
+`curl http://spot90s.herokuapp.com/artists/0Ty63ceoRnnJKVEYP0VQpk`

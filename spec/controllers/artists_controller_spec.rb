@@ -3,6 +3,11 @@ describe ArtistsController, type: :controller do
   let(:query) { Faker::Name.name }
   let(:artists) { [Faker::Name.name, Faker::Name.name, Faker::Name.name] }
 
+  let(:artist) { Faker::Name.name }
+  let(:formatted_artist) { {name: Faker::Name.name} }
+
+  let(:spotify_id) { Faker::Number.number(8) }
+
   describe '#search' do
     let(:formatted_artists) { [Faker::Name.name, Faker::Name.name, Faker::Name.name] }
 
@@ -111,6 +116,25 @@ describe ArtistsController, type: :controller do
     it 'maps the retrieved artists from Spotify to desired format' do
       expect(controller.reformat artists).to eq formatted_artists
     end
+  end
+
+  describe '#show' do
+    it 'retrieves and specific artists given the spotity id' do
+      expect(controller).to receive(:find).with(spotify_id).and_return artist
+      expect(controller).to receive(:reformat).with([artist]).and_return [formatted_artist]
+
+      get :show, params: { spotify_id: spotify_id}
+
+      expect(response.body).to eq formatted_artist.to_json
+    end
+  end
+
+  describe '#find' do
+    it 'delegates the search to RSpotify API' do
+      expect(RSpotify::Artist).to receive(:find).with(spotify_id).and_return artist
+      expect(controller.find spotify_id).to eq artist
+    end
+
   end
 
 end
