@@ -5,16 +5,16 @@ class ArtistsController < ApplicationController
   end
 
   def show
-    do_show params[:spotify_id]
+    artist = find(params[:spotify_id])
+    render json: reformat([artist]).first
   end
 
   def default
     render json: reformat([perform_search('e').first]).first
   end
 
-  def do_show(spotify_id)
-    artist = find(spotify_id)
-    render json: reformat([artist]).first
+  def favorite
+    render json: mark_as_favorite(params[:spotify_id])
   end
 
   def perform_search(query)
@@ -23,6 +23,17 @@ class ArtistsController < ApplicationController
 
   def find(spotify_id)
     RSpotify::Artist.find spotify_id
+  end
+
+  def mark_as_favorite(spotify_id)
+    spotify_artist = reformat([find(spotify_id)]).first
+    lookup_artist = Artist.find_by spotify_id: spotify_id
+    if lookup_artist.present?
+      lookup_artist.update! spotify: spotify_artist.to_s, favorite: true
+    else
+      Artist.create! spotify_id: spotify_id, spotify: spotify_artist.to_s, favorite: true
+    end
+    spotify_artist
   end
 
   def reformat(artists)

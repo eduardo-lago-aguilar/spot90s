@@ -1,3 +1,4 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
+  # disable it to make test easy!
+  #protect_from_forgery with: :exception
 end

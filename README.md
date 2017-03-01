@@ -25,3 +25,11 @@ You should assume that your solution is meant for production use by real users a
 ### Lookup specific artist by id
 
 `curl http://spot90s.herokuapp.com/artists/0Ty63ceoRnnJKVEYP0VQpk`
+
+### Get a default artist
+
+`curl http://spot90s.herokuapp.com/`
+
+### Marking an artist as favorite
+
+`curl -X PUT http://spot90s.herokuapp.com/artists/0Ty63ceoRnnJKVEYP0VQpk`

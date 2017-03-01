@@ -4,7 +4,7 @@ describe ArtistsController, type: :controller do
   let(:artists) { [Faker::Name.name, Faker::Name.name, Faker::Name.name] }
 
   let(:artist) { Faker::Name.name }
-  let(:formatted_artist) { {name: Faker::Name.name} }
+  let(:formatted_artist) { {name: Faker::Name.name, id: Faker::Number.number(8)} }
 
   let(:spotify_id) { Faker::Number.number(8) }
 
@@ -152,8 +152,40 @@ describe ArtistsController, type: :controller do
 
   describe '#favorite' do
     it 'stores the artist as favorite' do
-
+      expect(controller).to receive(:mark_as_favorite).with(spotify_id).and_return formatted_artist
+      put :favorite, params: {spotify_id: spotify_id}
+      expect(response.body).to eq formatted_artist.to_json
     end
+  end
+
+  describe '#mark_as_favorite' do
+    before do
+      expect(controller).to receive(:find).with(spotify_id).and_return artist
+      expect(controller).to receive(:reformat).with([artist]).and_return [formatted_artist]
+    end
+
+    describe 'artists non existing on database' do
+      it 'retrieves the artist from spotify and stored it on db as favorite' do
+        controller.mark_as_favorite spotify_id
+        expect(Artist.count).to eq 1
+        expect(Artist.take.spotify_id).to eq spotify_id
+        expect(Artist.take.spotify).to eq formatted_artist.to_s
+        expect(Artist.take.favorite).to eq true
+      end
+    end
+
+    describe 'artists already existing on database' do
+      it 'retrieves the artist from spotify and stored it on db as favorite' do
+        Artist.create! spotify_id: spotify_id, spotify: formatted_artist.to_s
+
+        controller.mark_as_favorite spotify_id
+        expect(Artist.count).to eq 1
+        expect(Artist.take.spotify_id).to eq spotify_id
+        expect(Artist.take.spotify).to eq formatted_artist.to_s
+        expect(Artist.take.favorite).to eq true
+      end
+    end
+
   end
 
 end
