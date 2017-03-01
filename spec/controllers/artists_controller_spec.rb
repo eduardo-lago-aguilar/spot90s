@@ -150,4 +150,10 @@ describe ArtistsController, type: :controller do
     end
   end
 
+  describe '#favorite' do
+    it 'stores the artist as favorite' do
+
+    end
+  end
+
 end
