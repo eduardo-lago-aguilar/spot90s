@@ -1,24 +1,17 @@
-# README
+# spot90s
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Use the Spotify API url to search for artists.
 
-Things you may want to cover:
+https://api.spotify.com/v1/search?type=artist&limit=50&q={query}
 
-* Ruby version
+You should assume that your solution is meant for production use by real users and will be maintained by your colleagues.
 
-* System dependencies
+## Business Requirements
+* Return the artists and re-format the results, provide a default artist value for the root url.
+* Fetch an artist and save as a favourite
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Technical Requirements
+* Create a Rails 5 project, store code on Github or BitBucket. The application needs to be deployed on Heroku.
+* Format the result set with just the spotify id, external_urls, genres, href and name.
+* Create an action to a mark an artist as a favourite, store the formatted result set.
+* API only, no views. Responses should return JSON.
