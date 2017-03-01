@@ -15,3 +15,9 @@ You should assume that your solution is meant for production use by real users a
 * Format the result set with just the spotify id, external_urls, genres, href and name.
 * Create an action to a mark an artist as a favourite, store the formatted result set.
 * API only, no views. Responses should return JSON.
+
+## Usage
+
+### Searching for artists
+
+`curl http://spot90s.herokuapp.com/artists/search/sting`
