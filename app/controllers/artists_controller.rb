@@ -5,7 +5,15 @@ class ArtistsController < ApplicationController
   end
 
   def show
-    artist = find(params[:spotify_id])
+    do_show params[:spotify_id]
+  end
+
+  def default
+    render json: reformat([perform_search('e').first]).first
+  end
+
+  def do_show(spotify_id)
+    artist = find(spotify_id)
     render json: reformat([artist]).first
   end
 
@@ -27,4 +35,5 @@ class ArtistsController < ApplicationController
       }
     end
   end
+
 end

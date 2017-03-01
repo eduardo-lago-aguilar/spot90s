@@ -123,7 +123,7 @@ describe ArtistsController, type: :controller do
       expect(controller).to receive(:find).with(spotify_id).and_return artist
       expect(controller).to receive(:reformat).with([artist]).and_return [formatted_artist]
 
-      get :show, params: { spotify_id: spotify_id}
+      get :show, params: {spotify_id: spotify_id}
 
       expect(response.body).to eq formatted_artist.to_json
     end
@@ -135,6 +135,19 @@ describe ArtistsController, type: :controller do
       expect(controller.find spotify_id).to eq artist
     end
 
+  end
+
+  describe '#default' do
+    let(:artist) {
+      double id: Faker::Number.number(10)
+    }
+
+    it 'retrieves a first artist matching the e letter' do
+      expect(controller).to receive(:perform_search).with('e').and_return artists
+      expect(controller).to receive(:reformat).with([artists[0]]).and_return [formatted_artist]
+      get :default
+      expect(response.body).to eq formatted_artist.to_json
+    end
   end
 
 end
