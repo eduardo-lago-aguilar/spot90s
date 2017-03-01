@@ -5,7 +5,7 @@ class ArtistsController < ApplicationController
   end
 
   def perform_search(query)
-
+    RSpotify::Artist.search query
   end
 
   def reformat(artists)
