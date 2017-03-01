@@ -1,3 +1,8 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  # artists
+  get '/artists/search/:query', controller: :artists, action: :search
+  get '/artists/:spotify_id', controller: :artists, action: :show
+  put '/artists/:spotify_id', controller: :artists, action: :favorite
+  root controller: :artists, action: :default
 end
